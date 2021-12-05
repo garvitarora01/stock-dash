@@ -3,7 +3,7 @@ def prediction(stock, n_days):
     import dash_core_components as dcc
     import dash_html_components as html
     from datetime import datetime as dt
-    import yfinance as yf
+    import pynance as pn
     from dash.dependencies import Input, Output, State
     from dash.exceptions import PreventUpdate
     import pandas as pd
@@ -18,7 +18,7 @@ def prediction(stock, n_days):
     from datetime import date, timedelta
     # load the data
 
-    df = yf.download(stock, period='60d')
+    df = pn.download(stock, period='60d')
     df.reset_index(inplace=True)
     df['Day'] = df.index
 
