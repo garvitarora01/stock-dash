@@ -2,7 +2,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from datetime import datetime as dt
-import yfinance as yf
+import pynance as pn
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 import pandas as pd
@@ -140,9 +140,9 @@ def stock_price(n, start_date, end_date, val):
         raise PreventUpdate
     else:
         if start_date != None:
-            df = yf.download(val, str(start_date), str(end_date))
+            df = pn.download(val, str(start_date), str(end_date))
         else:
-            df = yf.download(val)
+            df = pn.download(val)
 
     df.reset_index(inplace=True)
     fig = get_stock_price_fig(df)
@@ -162,9 +162,9 @@ def indicators(n, start_date, end_date, val):
         return [""]
 
     if start_date == None:
-        df_more = yf.download(val)
+        df_more = pn.download(val)
     else:
-        df_more = yf.download(val, str(start_date), str(end_date))
+        df_more = pn.download(val, str(start_date), str(end_date))
 
     df_more.reset_index(inplace=True)
     fig = get_more(df_more)
