@@ -16,25 +16,19 @@ def prediction(stock, n_days):
     import numpy as np
     from sklearn.svm import SVR
     from datetime import date, timedelta
-    from sklearn.preprocessing import MinMaxScaler
     # load the data
 
-    df = yf.download(stock, period='100d')
+    df = yf.download(stock, period='60d')
     df.reset_index(inplace=True)
-    #df['Day'] = df.index
-    df.drop(['Date'],inplace=True,axis=1)
-
-    numeric = ['Open', 'High', 'Low', 'Adj Close', 'Volume']
-    scale = MinMaxScaler().fit(df[numeric])
-    df[numeric] = scale.fit_transform(df[numeric])
+    df['Day'] = df.index
 
     days = list()
     for i in range(len(df.Day)):
-         days.append([i])
+        days.append([i])
 
     # Splitting the dataset
 
-    X = df[numeric]
+    X = days
     Y = df[['Close']]
 
     x_train, x_test, y_train, y_test = train_test_split(X,
@@ -69,6 +63,8 @@ def prediction(stock, n_days):
 
     # Support Vector Regression Models
 
+    # RBF model
+    #rbf_svr = SVR(kernel='rbf', C=1000.0, gamma=4.0)
     rbf_svr = best_svr
 
     rbf_svr.fit(x_train, y_train)
